@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,6 +17,36 @@ import MigraineContext from '../context/MigraineContext'
 function BarChart() {
 
   const {migrainesData} = useContext(MigraineContext)
+  // check if object is empty
+  // Object.keys(empty).length === 0 && empty.constructor === Object
+  // if (Object.keys(migrainesData).length === 0 && Object.constructor === Object) {
+  //   console.log(migrainesData)
+  // } else {
+  //   console.log('Shitsempty bruh')
+  // }
+
+  // Migraines per day
+  const [mpd, setMPD] = useState(0)
+  // How much medication was taken per month?
+  const [meds,setMeds] = useState(false)
+  // How many severe headaches per month?
+  const [severePM, setSeverePM] = useState()
+  // How many moderate headaches per month?
+  const [moderatePM, setModeratePM] = useState()
+  // How many mild headaches per month?
+  const [mildPM, setMildPM] = useState()
+
+  
+  const labels = ['June', 'July', 'August', 'September',]
+  useEffect(()=> {
+    if (Object.keys(migrainesData).length !== 0) {
+      setMPD(labels.map((label) =>migrainesData[label.toLocaleLowerCase()].filter((day) => day.migraine ).length))
+      setMeds(labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.medication ).length))
+      setSeverePM(labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 3 ).length))
+      setModeratePM(labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 2 ).length))
+      setMildPM(labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 1 ).length) )
+    }
+  }, [migrainesData])
 
   ChartJS.register(
     CategoryScale,
@@ -40,52 +70,41 @@ function BarChart() {
     },
   }
 
-  const labels = ['June', 'July', 'August', 'September',]
   
 
+  // const labels = ['June', 'July', 'August', 'September',]
   const data = {
     labels,
     datasets: [
       {
         label: 'Migraines',
         // data: labels.map(() => faker.datatype.number({ min: 0, max: 31 })), // migraine count
-        data: labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.migraine ).length),
+        data: mpd,
         backgroundColor: 'rgba(100, 50, 235, 0.5)',
       },
       {
         label: 'Medication',
-        data: labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.medication ).length),
+        data: meds,
         backgroundColor: 'rgba(100, 162, 100, 0.5)',
       },
       {
         label: 'Severe',
-        data: labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 3 ).length),
+        data: severePM,
         backgroundColor: 'rgba(255, 99, 99, 0.5)',
       },
       {
         label: 'Moderate',
-        data: labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 2 ).length),
+        data: moderatePM,
         backgroundColor: 'rgba(255, 255, 55, 0.5)',
       },
       {
         label: 'Mild',
-        data: labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.severity === 1 ).length),
+        data: mildPM,
         backgroundColor: 'rgba(53, 162, 235, 0.5)',
       },
     ],
   }
-  // labels.map((label, index) => {
-  //   // Month
-  //   // migraines[label.toLowerCase()]
-  //   // Each day
-  //   // if (migraines[label.toLowerCase()]) {
-  //   //   migraines[label.toLowerCase()].map((day) => {
-  //   //   console.log(day)
-  //   // })
-  //   if (migraines[label.toLowerCase()]) {
-  //     console.log(migraines[label.toLowerCase()].map((item) => item.migraine === true))
-  //   }
-  // })
+  
   return (
     <div>
       <Bar options={options} data={data} />

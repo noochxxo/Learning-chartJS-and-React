@@ -3,7 +3,6 @@ import { createContext, useState, useEffect } from "react"
 const MigraineContext = createContext()
 
 export const MigraineProvider = ({children}) => {
-  
   const [migrainesData, setMigrainesData] = useState({})
 
   useEffect(() => {
