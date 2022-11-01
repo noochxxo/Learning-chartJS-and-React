@@ -9,8 +9,10 @@ import {
   Title,
   Tooltip,
   Legend,
+  LineController,
+  BarController
 } from 'chart.js'
-import { Bar } from 'react-chartjs-2'
+import { Chart } from 'react-chartjs-2'
 
 import MigraineContext from '../context/MigraineContext'
 
@@ -29,7 +31,7 @@ function BarChart() {
 
   // Migraines per day
   const [mpd, setMPD] = useState(0)
-  // How much medication was taken per month?
+  // How much me  dication was taken per month?
   const [meds,setMeds] = useState(false)
   // How many severe headaches per month?
   const [severePM, setSeverePM] = useState()
@@ -57,6 +59,8 @@ function BarChart() {
     BarElement,
     PointElement,
     LineElement,
+    LineController,
+    BarController,
     Title,
     Tooltip,
     Legend
@@ -80,12 +84,14 @@ function BarChart() {
     labels,
     datasets: [
       {
+        type: 'bar',
         label: 'Migraines',
         // data: labels.map(() => faker.datatype.number({ min: 0, max: 31 })), // migraine count
         data: mpd,
         backgroundColor: 'rgba(100, 50, 235, 0.5)',
       },
       {
+        type: 'bar',
         label: 'Medication',
         data: meds,
         backgroundColor: 'rgba(100, 162, 100, 0.5)',
@@ -116,7 +122,7 @@ function BarChart() {
   
   return (
     <div>
-      <Bar options={options} data={data} />
+      <Chart type='bar' options={options} data={data} />
     </div>
   )
 }
