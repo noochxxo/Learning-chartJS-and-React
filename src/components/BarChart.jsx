@@ -8,13 +8,14 @@ import {
   LineElement,
   RadialLinearScale,
   ArcElement,
+  Filler,
   Title,
   Tooltip,
   Legend,
   LineController,
   BarController
 } from 'chart.js'
-import { Chart, PolarArea } from 'react-chartjs-2'
+import { Chart, PolarArea, Radar } from 'react-chartjs-2'
 
 import MigraineContext from '../context/MigraineContext'
 
@@ -65,6 +66,7 @@ function BarChart() {
     BarController,
     RadialLinearScale,
     ArcElement,
+    Filler,
     Title,
     Tooltip,
     Legend
@@ -105,13 +107,14 @@ function BarChart() {
         label: 'Migraines',
         // data: labels.map(() => faker.datatype.number({ min: 0, max: 31 })), // migraine count
         data: mpd,
-        backgroundColor: 'rgba(100, 50, 235, 0.5)',
+        backgroundColor: 'rgba(100, 50, 235, 0.2)',
       },
       {
-        type: 'bar',
+        type: 'line',
         label: 'Medication',
         data: meds,
-        backgroundColor: 'rgba(100, 162, 100, 0.5)',
+        borderColor: 'rgba(100, 162, 100, 0.6)',
+        backgroundColor: 'rgba(100, 162, 100, 0.8)',
       },
       {
         type: 'line',
@@ -160,12 +163,39 @@ function BarChart() {
       borderWidth: 1,
     },
   ],
-};
+}
+
+const radardata = {
+  labels: ['Migraines', 'Medication', 'Severe', 'Moderate', 'Mild'],
+  datasets: [
+    {
+      label: '# of migrainnes',
+      data: [
+        mpd.reduce((prev, curr) => prev + curr , 0),
+        meds.reduce((prev, curr) => prev + curr , 0),
+        severePM.reduce((prev, curr) => prev + curr , 0),
+        moderatePM.reduce((prev, curr) => prev + curr , 0),
+        mildPM.reduce((prev, curr) => prev + curr , 0),
+      ],
+      // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      backgroundColor: [
+        'rgba(100, 50, 235, 0.5)',
+        // 'rgba(100, 162, 100, 0.5)',
+        // 'rgba(255, 99, 99, 0.8)',
+        // 'rgba(255, 255, 55, 0.8)',
+        // 'rgba(53, 162, 235, 0.8)'
+      ],
+      // borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 2,
+    },
+  ],
+}
   
   return (
     <div>
       <Chart type='bar' options={options} data={data} />
       <PolarArea options={optionsPolar} data={arcdata} />
+      <Radar data={radardata} />
     </div>
   )
 }
