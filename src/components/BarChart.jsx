@@ -4,6 +4,8 @@ import {
   CategoryScale,
   LinearScale,
   BarElement,
+  PointElement,
+  LineElement,
   Title,
   Tooltip,
   Legend,
@@ -53,6 +55,8 @@ function BarChart() {
     CategoryScale,
     LinearScale,
     BarElement,
+    PointElement,
+    LineElement,
     Title,
     Tooltip,
     Legend
@@ -71,8 +75,6 @@ function BarChart() {
     },
   }
 
-  
-
   const labels = ['June', 'July', 'August', 'September',]
   const data = {
     labels,
@@ -89,19 +91,25 @@ function BarChart() {
         backgroundColor: 'rgba(100, 162, 100, 0.5)',
       },
       {
+        type: 'line',
         label: 'Severe',
         data: severePM,
-        backgroundColor: 'rgba(255, 99, 99, 0.5)',
+        borderColor: 'rgba(255, 99, 99, 0.6)',
+        backgroundColor: 'rgba(255, 99, 99, 0.8)',
       },
       {
+        type: 'line',
         label: 'Moderate',
         data: moderatePM,
-        backgroundColor: 'rgba(255, 255, 55, 0.5)',
+        borderColor: 'rgba(255, 255, 55, 0.6)',
+        backgroundColor: 'rgba(255, 255, 55, 0.8)',
       },
       {
+        type: 'line',
         label: 'Mild',
         data: mildPM,
-        backgroundColor: 'rgba(53, 162, 235, 0.5)',
+        borderColor: 'rgba(53, 162, 235, 0.6)',
+        backgroundColor: 'rgba(53, 162, 235, 0.8)',
       },
     ],
   }
