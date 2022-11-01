@@ -37,8 +37,9 @@ function BarChart() {
   const [mildPM, setMildPM] = useState()
 
   
-  const labels = ['June', 'July', 'August', 'September',]
+  
   useEffect(()=> {
+    const labels = ['June', 'July', 'August', 'September',]
     if (Object.keys(migrainesData).length !== 0) {
       setMPD(labels.map((label) =>migrainesData[label.toLocaleLowerCase()].filter((day) => day.migraine ).length))
       setMeds(labels.map((label) => migrainesData[label.toLocaleLowerCase()].filter((day) => day.medication ).length))
@@ -72,7 +73,7 @@ function BarChart() {
 
   
 
-  // const labels = ['June', 'July', 'August', 'September',]
+  const labels = ['June', 'July', 'August', 'September',]
   const data = {
     labels,
     datasets: [
