@@ -6,13 +6,15 @@ import {
   BarElement,
   PointElement,
   LineElement,
+  RadialLinearScale,
+  ArcElement,
   Title,
   Tooltip,
   Legend,
   LineController,
   BarController
 } from 'chart.js'
-import { Chart } from 'react-chartjs-2'
+import { Chart, PolarArea } from 'react-chartjs-2'
 
 import MigraineContext from '../context/MigraineContext'
 
@@ -61,6 +63,8 @@ function BarChart() {
     LineElement,
     LineController,
     BarController,
+    RadialLinearScale,
+    ArcElement,
     Title,
     Tooltip,
     Legend
@@ -75,6 +79,19 @@ function BarChart() {
       title: {
           display: true,
           text: 'Migraine Data',
+      },
+    },
+  }
+
+  const optionsPolar = {
+    responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+        },
+      title: {
+          display: true,
+          text: '# of Migraines in 4 months',
       },
     },
   }
@@ -119,10 +136,36 @@ function BarChart() {
       },
     ],
   }
+
+  const arcdata = {
+  labels: ['Migraines', 'Medication', 'Severe', 'Moderate', 'Mild'],
+  datasets: [
+    {
+      label: '# of Migraines in 4 months',
+      // data: [mpd, meds, severePM, moderatePM, mildPM],
+      data: [
+        mpd.reduce((prev, curr) => prev + curr , 0),
+        meds.reduce((prev, curr) => prev + curr , 0),
+        severePM.reduce((prev, curr) => prev + curr , 0),
+        moderatePM.reduce((prev, curr) => prev + curr , 0),
+        mildPM.reduce((prev, curr) => prev + curr , 0),
+      ],
+      backgroundColor: [
+        'rgba(100, 50, 235, 0.5)',
+        'rgba(100, 162, 100, 0.5)',
+        'rgba(255, 99, 99, 0.8)',
+        'rgba(255, 255, 55, 0.8)',
+        'rgba(53, 162, 235, 0.8)'
+      ],
+      borderWidth: 1,
+    },
+  ],
+};
   
   return (
     <div>
       <Chart type='bar' options={options} data={data} />
+      <PolarArea options={optionsPolar} data={arcdata} />
     </div>
   )
 }
